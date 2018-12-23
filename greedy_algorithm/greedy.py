@@ -117,10 +117,10 @@ if __name__ == "__main__":
     file_name = "../Instances/p{}"
     output_name = "./detail.txt"
     with open(output_name, "w") as output_file:
-        for file_name_i in range(54, 72):
+        for file_name_i in range(68, 72):
             print(file_name_i)
             time_start = time.time()
-            greedy_algorithm = GreedyAlgorithm(file_name, 100)
+            greedy_algorithm = GreedyAlgorithm(file_name, 10)
             time_end = time.time()
             output_file.write("Case {}   Data Name: {}   Time cost: {}\n".format(file_name_i, file_name.format(file_name_i), time_end - time_start))
             greedy_algorithm.print_best_solution(output_file)
