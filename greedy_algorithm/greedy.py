@@ -4,6 +4,7 @@ import time
 import random
 import math
 import numpy as np
+import csv
 
 class GreedyAlgorithm:
 
@@ -45,14 +46,18 @@ class GreedyAlgorithm:
                 self.s_arr.append(s)
                 self.f_arr.append(f)
 
-            for i in range(math.ceil(self.I / 10)):
+            count = 0
+            while not count == self.I:
                 text_line = file.readline()
+                count += len(text_line.split())
                 self.d_arr.extend(map(float, text_line.split()))
             
             self.d_arr = np.array(self.d_arr)
 
-            for i in range(math.ceil(self.I * self.J / 10)):
+            count = 0
+            while not count == self.I * self.J:
                 text_line = file.readline()
+                count += len(text_line.split())
                 self.c_arr.extend(map(float, text_line.split()))
 
             self.c_arr = np.array(self.c_arr).reshape(self.J, self.I)
@@ -116,11 +121,16 @@ class GreedyAlgorithm:
 if __name__ == "__main__":
     file_name = "../Instances/p{}"
     output_name = "./detail.txt"
-    with open(output_name, "w") as output_file:
-        for file_name_i in range(68, 72):
-            print(file_name_i)
-            time_start = time.time()
-            greedy_algorithm = GreedyAlgorithm(file_name, 10)
-            time_end = time.time()
-            output_file.write("Case {}   Data Name: {}   Time cost: {}\n".format(file_name_i, file_name.format(file_name_i), time_end - time_start))
-            greedy_algorithm.print_best_solution(output_file)
+    result_name = "./result.csv"
+    with open(result_name, "w", newline='') as result_file:
+        result_writer = csv.writer(result_file)
+        result_writer.writerow(['', 'result', 'time(s)'])
+        with open(output_name, "w") as output_file:
+            for file_name_i in range(1, 72):
+                print(file_name_i)
+                time_start = time.time()
+                greedy_algorithm = GreedyAlgorithm(file_name, 1000)
+                time_end = time.time()
+                output_file.write("Case {}   Data Name: {}   Time cost: {}\n".format(file_name_i, file_name.format(file_name_i), time_end - time_start))
+                greedy_algorithm.print_best_solution(output_file)
+                result_writer.writerow(['p{}'.format(file_name_i), '{}'.format(greedy_algorithm.min_result), '{}'.format(time_end - time_start)])
